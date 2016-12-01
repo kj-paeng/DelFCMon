@@ -264,53 +264,6 @@ begin
   end;
 end;
 
-(*
-procedure TBIDisplayer.setFuelImage(var img: TImage; pct: Byte; isFocused: Boolean);
-var
-  curImgFile: String;
-begin
-
-// 10 25 55 80 95 100
-  if (pct < 10) then
-  begin
-    if (isFocused) then curImgFile := imgDir+'\images\kr\ani\fuel1\0-0.bmp'
-    else curImgFile := imgDir+'\images\kr\ani\fuel1\0.bmp'
-  end else if (pct >=10) and (pct < 25) then
-  begin
-    if (isFocused) then curImgFile := imgDir+'\images\kr\ani\fuel1\0-1.bmp'
-    else curImgFile := imgDir+'\images\kr\ani\fuel1\1.bmp';
-  end else if (pct >=25) and (pct <55) then
-  begin
-    if (isFocused) then curImgFile := imgDir+'\images\kr\ani\fuel1\0-2.bmp'
-    else curImgFile := imgDir+'\images\kr\ani\fuel1\2.bmp';
-  end else if (pct >=55) and (pct <80) then
-  begin
-    if (isFocused) then curImgFile := imgDir+'\images\kr\ani\fuel1\0-3.bmp'
-    else curImgFile := imgDir+'\images\kr\ani\fuel1\3.bmp'
-  end else if (pct >=80) and (pct <95) then
-  begin
-    if (isFocused) then curImgFile := imgDir+'\images\kr\ani\fuel1\0-4.bmp'
-    else curImgFile := imgDir+'\images\kr\ani\fuel1\4.bmp';
-  end else if (pct >=95) and (pct <= 100) then
-  begin
-    if (isFocused) then curImgFile := imgDir+'\images\kr\ani\fuel1\0-5.bmp'
-    else curImgFile := imgDir+'\images\kr\ani\fuel1\5.bmp';
-  end;
-
-  if (Length(Trim(imgFuelImageFile))=0) then
-  begin
-    imgFuelImageFile := curImgFile;
-    img.Picture.LoadFromFile(curImgFile);
-  end else
-  begin
-    if (imgFuelImageFile <> curImgFile) then
-    begin
-      imgFuelImageFile := curImgFile;
-      img.Picture.LoadFromFile(curImgFile);
-    end;
-  end;
-end;
-*)
 procedure TBIDisplayer.setFuelImage(var img: TRollOverImage; pct: Byte; isFocused: Boolean);
 var
   curImgFile: String;
@@ -692,20 +645,6 @@ begin
   img.Picture.LoadFromFile(curImgFile);
 }
 
-(*  if (Length(Trim(imgFuelCellPopupFile))=0) then
-  begin
-    imgFuelCellPopupFile := curImgFile;
-    img.Picture.LoadFromFile(curImgFile);
-  end else
-  begin
-    if (imgFuelCellPopupFile <> curImgFile) then
-    begin
-      imgFuelCellPopupFile := curImgFile;
-      img.Picture.LoadFromFile(curImgFile);
-
-    end;
-  end;
-*)
 end;
 
 procedure TBIDisplayer.setMainTabImage(var img: TImage; main, disable: Byte);
