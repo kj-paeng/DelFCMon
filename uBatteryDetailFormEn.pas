@@ -96,20 +96,10 @@ var
 begin
   setIconImage;
 
-  // SABI Interface 정보 (for Page 1)
+
   iBatteryRemainCapa := biManager.getDefaultBatteryInfo(BATTERY_SLAVE_ADDR, BATTERY_REM_CAPA);
   iFuelCellRemainCapa := biManager.getDefaultBatteryInfo(FUELCELL_SLAVE_ADDR, FUELCELL_REM_CAPA);
 
-  //최대절전모드 방전 예상시간은 기본 전지 남은 잔량(remaining capacity)  / 상수(약 40)
-  //<== 시간 나오고 /24 해서 일로 표시
-  //대기모드 방전예상시간은 전체 전지 남은 잔량(remaining capacity) / 상수(약 500)
-  //<== 시간 나옴 / 그대로 표시
-  (*maxSaveTime: Word;
-  maxSaveTimeBattery: Word;
-  maxSaveTimeFuelCell: Word;
-  maxWaitTime: Word;
-  maxWaitTimeBattery: Word;
-  maxWaitTimeFuelCell: Word;*)
   if (batteryType = BATTERY_DETAIL_TYPE) then
   begin
     maxSaveTimeBattery := iBatteryRemainCapa / 40;
