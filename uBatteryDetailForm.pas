@@ -102,20 +102,9 @@ var
 begin
   setIconImage;
 
-  // SABI Interface Á¤º¸ (for Page 1)
   iBatteryRemainCapa := biManager.getDefaultBatteryInfo(BATTERY_SLAVE_ADDR, BATTERY_REM_CAPA);
   iFuelCellRemainCapa := biManager.getDefaultBatteryInfo(FUELCELL_SLAVE_ADDR, FUELCELL_REM_CAPA);
 
-  //ÃÖ´ëÀıÀü¸ğµå ¹æÀü ¿¹»ó½Ã°£Àº ±âº» ÀüÁö ³²Àº ÀÜ·®(remaining capacity)  / »ó¼ö(¾à 40)
-  //<== ½Ã°£ ³ª¿À°í /24 ÇØ¼­ ÀÏ·Î Ç¥½Ã
-  //´ë±â¸ğµå ¹æÀü¿¹»ó½Ã°£Àº ÀüÃ¼ ÀüÁö ³²Àº ÀÜ·®(remaining capacity) / »ó¼ö(¾à 500)
-  //<== ½Ã°£ ³ª¿È / ±×´ë·Î Ç¥½Ã
-  (*maxSaveTime: Word;
-  maxSaveTimeBattery: Word;
-  maxSaveTimeFuelCell: Word;
-  maxWaitTime: Word;
-  maxWaitTimeBattery: Word;
-  maxWaitTimeFuelCell: Word;*)
   if (batteryType = BATTERY_DETAIL_TYPE) then
   begin
     maxSaveTimeBattery := iBatteryRemainCapa / 40;
@@ -123,14 +112,14 @@ begin
 {$IFDEF EN}
     lblMaxSavingTime.Caption := Format('%3.0f', [maxSaveTime]) + ' Days';
 {$ELSE}
-    lblMaxSavingTime.Caption := Format('%3.0f', [maxSaveTime]) + ' ÀÏ';
+    lblMaxSavingTime.Caption := Format('%3.0f', [maxSaveTime]) + ' ì¼';
 {$ENDIF}
     maxWaitTimeBattery := iBatteryRemainCapa / 500;
     maxWaitTime := maxWaitTimeBattery;
 {$IFDEF EN}
     lblWatingTime.Caption := Format('%3.0f', [maxWaitTime]) + 'Hours';
 {$ELSE}
-    lblWatingTime.Caption := Format('%3.0f', [maxWaitTime]) + '½Ã°£';
+    lblWatingTime.Caption := Format('%3.0f', [maxWaitTime]) + 'ì‹œê°„';
 {$ENDIF}
 
   end
@@ -141,7 +130,7 @@ begin
 {$IFDEF EN}
     lblMaxSavingTime.Caption := Format('%3.0f', [maxSaveTime]) + ' Days';
 {$ELSE}
-    lblMaxSavingTime.Caption := Format('%3.0f', [maxSaveTime]) + ' ÀÏ';
+    lblMaxSavingTime.Caption := Format('%3.0f', [maxSaveTime]) + ' ì¼';
 {$ENDIF}
 
     maxWaitTimeFuelCell := iFuelCellRemainCapa / 500;
@@ -149,7 +138,7 @@ begin
 {$IFDEF EN}
     lblWatingTime.Caption := Format('%3.0f', [maxWaitTime]) + 'Hours';
 {$ELSE}
-    lblWatingTime.Caption := Format('%3.0f', [maxWaitTime]) + '½Ã°£';
+    lblWatingTime.Caption := Format('%3.0f', [maxWaitTime]) + 'ì‹œê°„';
 {$ENDIF}    
   end;
 
@@ -213,28 +202,14 @@ begin
     sDensity := sDensity +  Format('%5.0f', [iCapac])+ ' cc';
 
     lblDensityandCapa.Caption := sDensity;
-(*
-    case catID of
-    11:
-      lblDensityandCapa.Caption := '18 mol / 120 cc';
-    12:
-      lblDensityandCapa.Caption := 'pure / 120 cc';
-    21:
-      lblDensityandCapa.Caption := '18 mol / 960 cc';
-    22:
-      lblDensityandCapa.Caption := 'pure / 960 cc';
-    else
-      lblDensityandCapa.Caption := '-- mol / --- cc';
 
-    end;
-*)
   end;
 
 {$ELSE}
   detailTimer.Enabled := True;
   if (batteryType = BATTERY_DETAIL_TYPE) then
   begin
-    lblTypeName.Caption := 'º¸Á¶ÀüÁö';
+    lblTypeName.Caption := 'ë³´ì¡°ì „ì§€';
 
     lblTypeName.Visible := true;
     lblTypeNameTitle.Visible := true;
@@ -249,32 +224,16 @@ begin
   end
   else if (batteryType = FUELCELL_DETAIL_TYPE) then
   begin
-    lblTypeName.Caption := '¿¬·áÀüÁö';
+    lblTypeName.Caption := 'ì—°ë£Œì „ì§€';
     lblTypeNameTitle.Visible := false;
     lblTypeName.Visible := false;
 
     catID := FloatToInteger(catridgeID);
-//    ShowMessage('FC43' + IntToStr(catID));
     lblFuelCellID.Caption := 'FC43' + IntToStr(catID);
     sDensity := Format('%7.1f', [iDensity / 10])+' mol / ';
     sDensity := sDensity + Format('%7.0f', [iCapac])+ ' cc';
     lblDensityandCapa.Caption := sDensity;
-//    ShowMessage('idensity='+FloatToStr(iDensity));
-//    ShowMessage('icapac='+FloatToStr(iCapac));
-(*
-    case catID of
-    11:
-      lblDensityandCapa.Caption := '18 mol / 120 cc';
-    12:
-      lblDensityandCapa.Caption := 'pure / 120 cc';
-    21:
-      lblDensityandCapa.Caption := '18 mol / 960 cc';
-    22:
-      lblDensityandCapa.Caption := 'pure / 960 cc';
-    else
-      lblDensityandCapa.Caption := '-- mol / --- cc'; 
-    end;
-*)
+
   end;
 
 {$ENDIF}
