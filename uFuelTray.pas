@@ -47,12 +47,7 @@ var
   handle: integer;
 begin
   try
-(*    if (frmPM = nil) then
-    begin
-      frmPM.Free;
-      frmPM := nil;
-    end;
-*)
+
     handle := FindWindow(PChar('TfrmPM'), nil);
     if (handle=0) then
     begin
@@ -85,26 +80,10 @@ begin
   pmClose.Caption := 'Close';
 
 {$ELSE}
-  pmOpen.Caption := '¿¬·áÀüÁö½Ã½ºÅÛ ¿­±â';
-  pmClose.Caption := '´İ±â';
+  pmOpen.Caption := 'ì—°ë£Œì „ì§€ì‹œìŠ¤í…œ ì—´ê¸°';
+  pmClose.Caption := 'ë‹«ê¸°';
 
 {$ENDIF}
-
-(*
-  appDir := Copy(Application.ExeName, 1, getLastCharPos(Application.ExeName, '\'));
-CreateProcessSimple(appDir + 'RichEditor.exe');
-  Close;
-  biManager := TBios.Create;
-  initResult := biManager.initBios;
-  if (initResult <> 0) then
-  begin
-    MessageDlg('BiosInit value is not zero['+IntToStr(initResult)+'].', mtInformation, [mbOK], 0);
-
-    appDir := Copy(Application.ExeName, 1, getLastCharPos(Application.ExeName, '\'));
-    CreateProcessSimple(appDir + 'StartMem.exe');
-
-  end;
-*)
 
   SSTray.Active := True;
   Timer1.Interval := StrToInt(getRegValue('DisplayInterval'))*1000;
@@ -141,7 +120,7 @@ begin
         CanClose := false;
         Exit;
       {$ELSE}
-        MessageDlg('ÀüÁö »ó¼¼Á¤º¸ È­¸éÀ» ´İ¾ÆÁÖ½Å ÈÄ Á¾·áÇÏ½Ê½Ã¿ä', mtWarning, [mbOk], 0);
+        MessageDlg('ì „ì§€ ìƒì„¸ì •ë³´ í™”ë©´ì„ ë‹«ì•„ì£¼ì‹  í›„ ì¢…ë£Œí•˜ì‹­ì‹œìš”', mtWarning, [mbOk], 0);
         CanClose := false;
         Exit;
       {$ENDIF}
@@ -172,29 +151,27 @@ end;
 procedure TfrmFuelTray.Timer1Timer(Sender: TObject);
 var
   iFuelCurr: Double;
-  // SABI variable (For page 1)
   iBatteryFullCapa, iBatteryRemainCapa, iFuelCellFullCapa, iFuelCellRemainCapa: Single;
   batteryLifePercent: Word;
   batteryLifePercent2: Single;
 
 begin
   iFuelCurr := biManager.getBatteryData(FUELCURR);
-  // SABI Interface Á¤º¸ (for Page 1)
   iBatteryFullCapa := biManager.getDefaultBatteryInfo(BATTERY_SLAVE_ADDR, BATTERY_FULL_CAPA);
   iBatteryRemainCapa := biManager.getDefaultBatteryInfo(BATTERY_SLAVE_ADDR, BATTERY_REM_CAPA);
   iFuelCellFullCapa := biManager.getDefaultBatteryInfo(FUELCELL_SLAVE_ADDR, FUELCELL_FULL_CAPA);
   iFuelCellRemainCapa := biManager.getDefaultBatteryInfo(FUELCELL_SLAVE_ADDR, FUELCELL_REM_CAPA);
 
-  if (iFuelCurr <= 0.2) then iFuelCellRemainCapa := 0; // 0.2 ÀÌÇÏ¸é ¿¬·áÀüÁö ÀåÂøµÇÁö ¾ÊÀº °ÍÀ¸·Î ÆÇ´ÜÇÔ.
+  if (iFuelCurr <= 0.2) then iFuelCellRemainCapa := 0; 
 
   batteryLifePercent2 := (iBatteryRemainCapa+iFuelCellRemainCapa)/(iBatteryFullCapa+iFuelCellFullCapa)*100;
   batteryLifePercent := StrToInt(Format('%5.0f', [batteryLifePercent2]));
   if (batteryLifePercent > 100) then batteryLifePercent := 100;
 
 {$IFDEF EN}
-  SSTray.ToolTip := 'Samsung Fuelcell Monitor ('+ IntToStr(batteryLifePercent) + '% remain)';
+  SSTray.ToolTip := 'Fuelcell Monitor ('+ IntToStr(batteryLifePercent) + '% remain)';
 {$ELSE}
-  SSTray.ToolTip := '»ï¼º ¿¬·áÀüÁö ¸ğ´ÏÅÍ ('+ IntToStr(batteryLifePercent) + '% ³²À½)';
+  SSTray.ToolTip := 'ì—°ë£Œì „ì§€ ëª¨ë‹ˆí„° ('+ IntToStr(batteryLifePercent) + '% ë‚¨ìŒ)';
 {$ENDIF}
 end;
 
