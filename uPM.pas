@@ -147,12 +147,6 @@ var
   frmPM: TfrmPM;
   imgDisplayer: TBIDisplayer;
 
-// by Kim DongRak (20060515:10:24)
-//ÃÖ´ëÀýÀü¸ðµå ¹æÀü ¿¹»ó½Ã°£Àº ±âº» ÀüÁö ³²Àº ÀÜ·®(remaining capacity) / »ó¼ö(¾à 40)
-//<== ½Ã°£ ³ª¿À°í /24 ÇØ¼­ ÀÏ·Î Ç¥½Ã
-//´ë±â¸ðµå ¹æÀü¿¹»ó½Ã°£Àº ÀüÃ¼ ÀüÁö ³²Àº ÀÜ·®(remaining capacity) / »ó¼ö(¾à 500)
-//<== ½Ã°£ ³ª¿È / ±×´ë·Î Ç¥½Ã
-// ÃÑ »ç¿ë°¡´É ½Ã°£  NPC(³²Àº ¿ë·® ÇÕÇÑ °Í (mA/h)  (1-2A - 2pageÀÇ ½Ã½ºÅÛ Ãâ·Â * 1000) > ½Ã°£(0.5 ¸é 30ºÐ) 
   maxSaveTime: Single;
   maxSaveTimeBattery: Single;
   maxSaveTimeFuelCell: Single;
@@ -308,15 +302,15 @@ begin
     Panel8.Visible := true;
     Panel9.Visible := true;
 
-//    Label36.Visible := true;       // 20061030 ¿äÃ» (by À¯Àç¿ì)
+//    Label36.Visible := true;       // 
     lblCurrentPowerType.Visible := true;  // conditional
     lblMaxSaveTime.Visible := true;
     lblMaxWaitTime.Visible := true;
 
-    Label3.Visible := true;  // ÃÖ´ëÀýÀü¸ðµå ¹æÀü ¿¹»ó½Ã°£
-    Label6.Visible := true;  // ´ë±â¸ðµå À¯Áö ¿¹»ó½Ã°£
-    Label34.Visible := true; // °¢ °ÇÀüÁöÀÇ ´õ ÀÚ¼¼ÇÑ Á¤º¸¸¦ º¸½Ã·Á¸é
-    Label35.Visible := true; // ÇØ´ç ÀüÁöÀÇ ¾ÆÀÌÄÜÀ» Å¬¸¯ ÇÏ¼¼¿ä
+    Label3.Visible := true;  // 
+    Label6.Visible := true;  //
+    Label34.Visible := true; // 
+    Label35.Visible := true; // 
 
     Label2.Visible := true;
 
@@ -372,15 +366,15 @@ begin
     Panel8.Visible := false;
     Panel9.Visible := false;
 
-//    Label36.Visible := false;  // 20061030 by À¯Àç¿ì
+//    Label36.Visible := false;  //
     lblCurrentPowerType.Visible := false;  // conditional
     lblMaxSaveTime.Visible := false;
     lblMaxWaitTime.Visible := false;
 
-    Label3.Visible := false;  // ÃÖ´ëÀýÀü¸ðµå ¹æÀü ¿¹»ó½Ã°£
-    Label6.Visible := false;  // ´ë±â¸ðµå À¯Áö ¿¹»ó½Ã°£
-    Label34.Visible := false; // °¢ °ÇÀüÁöÀÇ ´õ ÀÚ¼¼ÇÑ Á¤º¸¸¦ º¸½Ã·Á¸é
-    Label35.Visible := false; // ÇØ´ç ÀüÁöÀÇ ¾ÆÀÌÄÜÀ» Å¬¸¯ ÇÏ¼¼¿ä
+    Label3.Visible := false;  // 
+    Label6.Visible := false;  // 
+    Label34.Visible := false; // 
+    Label35.Visible := false; // 
 
     Label2.Visible := false;
 
@@ -435,40 +429,6 @@ begin
     battDrawer.drawGrid(self.Canvas);
   end;
 end;
-
-(*
-procedure TfrmPM.WndProc(var Message : TMessage);
-begin
-  if Message.LParam = Longint(imgBatteryStatus) then
-  begin
-    if (Message.Msg = CM_MOUSELEAVE) then
-    begin
-        imgDisplayer.setBatteryImage(imgBatteryStatus, StrToInt(Format('%3.0f', [iBatteryPercent])), true);
-    end;
-    if (Message.Msg = CM_MOUSEENTER) then
-    begin
-      imgDisplayer.setBatteryImage(imgBatteryStatus, StrToInt(Format('%3.0f', [iBatteryPercent])), false);
-    end;
-
- end;
-
-  if Message.LParam = Longint(imgFuelStatus) then
-  begin
-    if (Message.Msg = CM_MOUSELEAVE) then
-    begin
-      imgDisplayer.setFuelImage(imgFuelStatus, StrToInt(Format('%3.0f', [iFuelCellPercent])), false);
-    end;
-
-    if (Message.Msg = CM_MOUSEENTER) then
-    begin
-      imgDisplayer.setFuelImage(imgFuelStatus, StrToInt(Format('%3.0f', [iFuelCellPercent])), true);
-    end;
-  end;
-
-
-   inherited WndProc(Message);
-end;
-*)
 
 procedure TfrmPM.Image2Click(Sender: TObject);
 begin
@@ -526,7 +486,6 @@ begin
     
   end;
 
-  // SABI Interface Á¤º¸  (Page 2)
   lblNPCV.Caption := Format('%2.1f', [inpcVolt]);//IntToStr(inpcVolt);
   lblNPCA.Caption := Format('%2.1f', [inpcCurr]);//IntToStr(inpcCurr);
 
@@ -612,7 +571,7 @@ end;
 
 procedure TfrmPM.CheckBox2Click(Sender: TObject);
 begin
-  if (CheckBox2.Checked) then // °¢°¢ Cell º¸ÀÌ±â
+  if (CheckBox2.Checked) then // 
   begin
     updateRegValue('showEachBattery', '1');
   end else begin
@@ -679,19 +638,6 @@ begin
 
     if (not b) then break;
 
-(*
-  DeviceInfoSet: HDEVINFO;
-  DeviceInterfaceData: PSP_DEVICE_INTERFACE_DATA;
-  DeviceInterfaceDetailData: PSP_DEVICE_INTERFACE_DETAIL_DATA;
-  DeviceInterfaceDetailDataSize: DWORD;
-  RequiredSize: PDWORD;
-  DeviceInfoData: PSP_DEVINFO_DATA
-
-*)
-
-    //offsetof( SP_DEVICE_INTERFACE_DETAIL_DATA, DevicePath) + sizeof(TCHAR)
-    //detaillength := sizeof(TCHAR);
-
    d := SetupDiGetDeviceInterfaceDetailW(
       handleDevInfo,
       @data,
@@ -706,23 +652,6 @@ begin
       ShowMessage(IntToStr(lastError));
     end;
 
-    //detail.cbSize := sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA);
-(*    Do not do this:
-detailData.cbSize =Marshal.SizeOf(typeof
-(Win32Methods.SP_DEVICE_INTERFACE_DETAIL_DATA));
-
-Marshal.SizeOf returns a size of 8 for the struct which is
-not what the setupapi is expecting. The setupapi expects
-the original size of the struct. Looking at the header
-files in the DDK, I calculated the size to be 5 for the
-ANSI version of the function and 6 for the Unicode.
-
-That's what was hanging me up. I forgot I was calling the
-Unicode version.
-
-Regards,
-Kevin
-*)
     detail.cbSize := 6;
     d := SetupDiGetDeviceInterfaceDetailW(
       handleDevInfo,
@@ -741,10 +670,6 @@ Kevin
     begin
       ShowMessage(detail.DevicePath);
     end;
-    //devPath := ^detail.DevicePath;
-//    devicePath := devPath;
-//    ShowMessage(devicePath);
-
 
   end;
 
@@ -783,7 +708,7 @@ end;
 
 procedure TfrmPM.mainTimerTimer(Sender: TObject);
 var
-  // SABI variable (For page 1)
+
   iBatteryFullCapa, iBatteryRemainCapa, iFuelCellFullCapa, iFuelCellRemainCapa: Single;
   // Total Cell Info (for Page 1)
   fullRemTime: Extended;
@@ -800,7 +725,7 @@ begin
   iFuelVolt := biManager.getBatteryData(FUELVOLT);
   iFuelCurr := biManager.getBatteryData(FUELCURR);
 
-  // SABI Interface Á¤º¸ (for Page 1)
+
   iBatteryFullCapa := biManager.getDefaultBatteryInfo(BATTERY_SLAVE_ADDR, BATTERY_FULL_CAPA);
   iBatteryRemainCapa := biManager.getDefaultBatteryInfo(BATTERY_SLAVE_ADDR, BATTERY_REM_CAPA);
   iFuelCellFullCapa := biManager.getDefaultBatteryInfo(FUELCELL_SLAVE_ADDR, FUELCELL_FULL_CAPA);
@@ -808,8 +733,7 @@ begin
 
 
       try
-        //ÃÑ»ç¿ë°¡´É½Ã°£=(±âº»ÀüÁöÀÜ·®+¿¬·áÀüÁöÀÜ·®)/(½Ã½ºÅÛ Ãâ·ÂÀÇ Amphere*1000)
-        if (inpcCurr <=0) then inpcCurr := 0.0001;
+      if (inpcCurr <=0) then inpcCurr := 0.0001;
         fullRemTime := ((iBatteryRemainCapa+iFuelCellRemainCapa)/(inpcCurr*1000))*60*60;
       except
       end;
@@ -846,7 +770,7 @@ begin
   
   if b then
   begin
-    // SABI Interface Á¤º¸ (for Page 2)
+  
     lblNPCV.Caption := Format('%2.1f', [inpcVolt]);//IntToStr(inpcVolt);
     lblNPCA.Caption := Format('%2.1f', [inpcCurr]);//IntToStr(inpcCurr);
     lblBatteryV.Caption := Format('%2.1f', [ibattVolt]);//IntToStr(ibattVolt);
@@ -875,28 +799,9 @@ begin
     WriteLog('FuelCellProgress', FloatToStr(iFuelCellDetailPercent));
   {$ENDIF}
 
-//    imgDisplayer.setPowerDetailImage(img_NPC, StrToInt(Format('%3.0f', [iNpcDetailPercent])));
-//    imgDisplayer.setFuelDetailImage(img_Fuel, StrToInt(Format('%3.0f', [iFuelCellDetailPercent])));
-// move to setBatteryImage from setBatteryDetailImage
-// move to setFuelImage from setFuelDetailImage
-//    imgDisplayer.setBatteryImage(img_Battery, StrToInt(Format('%3.0f', [iBatteryDetailPercent])), false);
-//    imgDisplayer.setFuelImage(img_Fuel, StrToInt(Format('%3.0f', [iFuelCellPercent])), false);
-
     lblBatteryRemain.Caption := Format('%3.0f', [iBatteryPercent]);
     lblFuelCellRemain.Caption := Format('%3.0f', [iFuelCellPercent]);
     imgDisplayer.setBatteryImage(imgBatteryStatus, StrToInt(Format('%3.0f', [iBatteryPercent])), false);
-
-    //ÃÖ´ëÀýÀü¸ðµå ¹æÀü ¿¹»ó½Ã°£Àº ±âº» ÀüÁö ³²Àº ÀÜ·®(remaining capacity)  / »ó¼ö(¾à 40)
-    //<== ½Ã°£ ³ª¿À°í /24 ÇØ¼­ ÀÏ·Î Ç¥½Ã
-    //´ë±â¸ðµå ¹æÀü¿¹»ó½Ã°£Àº ÀüÃ¼ ÀüÁö ³²Àº ÀÜ·®(remaining capacity) / »ó¼ö(¾à 500)
-    //<== ½Ã°£ ³ª¿È / ±×´ë·Î Ç¥½Ã
-    (*
-    maxSaveTime: Word;
-    maxSaveTimeBattery: Word;
-    maxSaveTimeFuelCell: Word;
-    maxWaitTime: Word;
-    maxWaitTimeBattery: Word;
-    maxWaitTimeFuelCell: Word;*)
     
     maxSaveTimeBattery := iBatteryRemainCapa / 40;
     maxSaveTimeFuelCell := iFuelCellRemainCapa / 40;
@@ -904,7 +809,7 @@ begin
 {$IFDEF EN}
     lblMaxSaveTime.Caption := Format('%3.0f', [maxSaveTime]) + ' Days';
 {$ELSE}
-    lblMaxSaveTime.Caption := Format('%3.0f', [maxSaveTime]) + ' ÀÏ';
+    lblMaxSaveTime.Caption := Format('%3.0f', [maxSaveTime]) + ' ì¼';
 {$ENDIF}
     maxWaitTimeBattery := iBatteryRemainCapa / 500;
     maxWaitTimeFuelCell := iFuelCellRemainCapa / 500;
@@ -913,47 +818,38 @@ begin
 {$IFDEF EN}
     lblMaxWaitTime.Caption := Format('%3.0f', [maxWaitTime]) + ' Hours';
 {$ELSE}
-    lblMaxWaitTime.Caption := Format('%3.0f', [maxWaitTime]) + '½Ã°£';
+    lblMaxWaitTime.Caption := Format('%3.0f', [maxWaitTime]) + 'ì‹œê°„';
 {$ENDIF}
 
     // by ryu jae woo
     if (iFuelCellPercent > 100) then
       iFuelCellPercent := 100.0;
     imgDisplayer.setFuelImage(imgFuelStatus, StrToInt(Format('%3.0f', [iFuelCellPercent])), false);
-
-    // [+ ¿¬·á ÀüÁö] (lblCurrentPowerType) Visible ¿©ºÎ
     if (iFuelCurr > 0.2) then
     begin
 {$IFDEF EN}
       lblCurrentPowerType.Caption := 'Fuel Cell + Li-Ion Battery';
 {$ELSE}
-      lblCurrentPowerType.Caption := '¿¬·áÀüÁö + º¸Á¶ÀüÁö';
+      lblCurrentPowerType.Caption := 'ì—°ë£Œì „ì§€ + ë³´ì¡°ì „ì§€';
 {$ENDIF}
       lblCurrentPowerType.Visible := true;
       lblFuelCellRemain.Visible := true;
       Label33.Visible := true;
-    //    Label31.Caption := '³²Àº ÀüÁö ¾ç   ';
-    //  if (iFuelCellPercent > 100) then iFuelCellPercent := 100.0;
-    //  imgDisplayer.setFuelImage(imgFuelStatus, StrToInt(Format('%3.0f', [iFuelCellPercent])), false);
+
     end
     else
     begin
 
-//      iFuelCellRemainCapa := 0; // 0.2 ÀÌÇÏ¸é ¿¬·áÀüÁö ÀåÂøµÇÁö ¾ÊÀº °ÍÀ¸·Î ÆÇ´ÜÇÔ.
 {$IFDEF EN}
       lblCurrentPowerType.Caption := 'Li-Ion Battery';
 {$ELSE}
-      lblCurrentPowerType.Caption := 'º¸Á¶ÀüÁö';
+      lblCurrentPowerType.Caption := 'ë³´ì¡°ì „ì§€';
 {$ENDIF}
       lblFuelCellRemain.Visible := false;
       Label33.Visible := false;
-      //Label31.Caption := 'ÀåÂøµÇÁö ¾ÊÀ½   ';
-      //imgDisplayer.setFuelImage(imgFuelStatus, StrToInt(Format('%3.0f', [0.0])), false);  // by ryu jae woo
     end;
 
     // Total Cell Info (for Page 1)
-//    fullRemTime := getBatteryRemainTime;
-//    if (fullRemTime = $FFFFFFFF) then   // some battery device may return unknown value (ex: Toshiba battery)
     if getACLineStatus then
     begin
       lblACNotice.Visible := true;
@@ -970,32 +866,7 @@ begin
       lblColonDown.Visible := true;
       lblTotalRemMin.Visible := true;
     end;
-(*
-      try
-        //ÃÑ»ç¿ë°¡´É½Ã°£=(±âº»ÀüÁöÀÜ·®+¿¬·áÀüÁöÀÜ·®)/(½Ã½ºÅÛ Ãâ·ÂÀÇ Amphere*1000)
-        if (inpcCurr <=0) then inpcCurr := 0.0001;
-        fullRemTime := ((iBatteryRemainCapa+iFuelCellRemainCapa)/(inpcCurr*1000))*60*60;
-      except
-      end;
 
-      if (fullRemTime >= 3600) then
-      begin
-        min := fullRemTime / 60;
-        hour := min / 60;
-        ihour := getIntegerFromFloat(hour);
-        min := min - ihour*60;
-        imin := getIntegerFromFloat(min);
-
-        lblTotalRemTime.Caption := IntToStr(ihour);//Format('%3.0f', [hour]);//IntToStr(hour);//;  //Zero_Str(int, len: integer)
-        lblTotalRemMin.Caption := Zero_Str(imin, 2);
-      end else if (fullRemTime < 3600) then
-      begin
-        min := fullRemTime / 60;
-        imin := getIntegerFromFloat(min);
-        lblTotalRemTime.Caption := '00';
-        lblTotalRemMin.Caption := Zero_Str(imin, 2);
-      end;
-*)
 {
     iBatteryPercent := (iBatteryRemainCapa / iBatteryFullCapa)* 100;
     if (iBatteryPercent > 100) then iBatteryPercent := 100;
@@ -1013,7 +884,7 @@ begin
 
     if getACLineStatus then // AC Line Use
     begin
-      // SABI Interface Á¤º¸ (for Page 2)
+      
       lblNPCV.Caption := Format('%2.1f', [0.0]);//IntToStr(inpcVolt);
       lblNPCA.Caption := Format('%2.1f', [0.0]);//IntToStr(inpcCurr);
       lblBatteryV.Caption := Format('%2.1f', [0.0]);//IntToStr(ibattVolt);
@@ -1030,28 +901,14 @@ begin
 
       iBatteryDetailPercent := ibattVolt * ibattCurr * 100 / 30;
       if (iBatteryDetailPercent > 100) then iBatteryDetailPercent := 100.0;
-//    imgDisplayer.setProgressImage(imgBatteryProgress, iBatteryDetailPercent);
+
 
       iFuelCellDetailPercent := iFuelVolt * iFuelCurr * 100 / 30;
       if (iFuelCellDetailPercent > 100) then iFuelCellDetailPercent := 100.0;
-//    imgDisplayer.setProgressImage(imgFuelCellProgress, iFuelCellDetailPercent);
-
-//    imgDisplayer.setPowerDetailImage(img_NPC, StrToInt(Format('%3.0f', [iNpcDetailPercent])));
-// iDetailBatteryPercent > iBatteryPercent·Î ¼öÁ¤   imgDisplayer.setBatteryDetailImage>imgDisplayer.setBatteryImage
-// iDetailFuelCellPercent > iFuelCellPercent·Î ¼öÁ¤ imgDisplayer.setFuelDetailImage>imgDisplayer.setFuelImage
       imgDisplayer.setBatteryDetailImage(img_Battery, StrToInt(Format('%3.0f', [iBatteryPercent])));
       imgDisplayer.setFuelDetailImage(img_Fuel, StrToInt(Format('%3.0f', [iFuelCellPercent])));
 
 
-(*
-    try
-      //ÃÑ»ç¿ë°¡´É½Ã°£=(±âº»ÀüÁöÀÜ·®+¿¬·áÀüÁöÀÜ·®)/(½Ã½ºÅÛ Ãâ·ÂÀÇ Amphere*1000)
-      if (inpcCurr <=0) then inpcCurr := 0.0001;
-        fullRemTime := ((iBatteryRemainCapa+iFuelCellRemainCapa)/(inpcCurr*1000))*60*60;
-    except
-
-    end;
-*)
       sysDrawer.addValue(0);
       fuelDrawer.addValue(0);
       battDrawer.addValue(0);
@@ -1063,7 +920,7 @@ begin
     end
     else   //////  do not use AC Line
     begin
-      // SABI Interface Á¤º¸ (for Page 2)
+     
       lblNPCV.Caption := Format('%2.1f', [inpcVolt]);//IntToStr(inpcVolt);
       lblNPCA.Caption := Format('%2.1f', [inpcCurr]);//IntToStr(inpcCurr);
       lblBatteryV.Caption := Format('%2.1f', [ibattVolt]);//IntToStr(ibattVolt);
@@ -1080,29 +937,11 @@ begin
 
       iBatteryDetailPercent := ibattVolt * ibattCurr * 100 / 30;
       if (iBatteryDetailPercent > 100) then iBatteryDetailPercent := 100.0;
-//    imgDisplayer.setProgressImage(imgBatteryProgress, iBatteryDetailPercent);
 
       iFuelCellDetailPercent := iFuelVolt * iFuelCurr * 100 / 30;
       if (iFuelCellDetailPercent > 100) then iFuelCellDetailPercent := 100.0;
-//    imgDisplayer.setProgressImage(imgFuelCellProgress, iFuelCellDetailPercent);
-
-//    imgDisplayer.setPowerDetailImage(img_NPC, StrToInt(Format('%3.0f', [iNpcDetailPercent])));
-// iDetailBatteryPercent > iBatteryPercent·Î ¼öÁ¤   imgDisplayer.setBatteryDetailImage>imgDisplayer.setBatteryImage
-// iDetailFuelCellPercent > iFuelCellPercent·Î ¼öÁ¤ imgDisplayer.setFuelDetailImage>imgDisplayer.setFuelImage
       imgDisplayer.setBatteryDetailImage(img_Battery, StrToInt(Format('%3.0f', [iBatteryPercent])));
       imgDisplayer.setFuelDetailImage(img_Fuel, StrToInt(Format('%3.0f', [iFuelCellPercent])));
-
-
-(*
-    try
-      //ÃÑ»ç¿ë°¡´É½Ã°£=(±âº»ÀüÁöÀÜ·®+¿¬·áÀüÁöÀÜ·®)/(½Ã½ºÅÛ Ãâ·ÂÀÇ Amphere*1000)
-      if (inpcCurr <=0) then inpcCurr := 0.0001;
-        fullRemTime := ((iBatteryRemainCapa+iFuelCellRemainCapa)/(inpcCurr*1000))*60*60;
-    except
-
-    end;
-*)
-
 
       if (round(inpcVolt * inpcCurr) > sysDrawer.max) then
         sysDrawer.addValue(sysDrawer.max)
@@ -1152,12 +991,6 @@ begin
     TimerAlerter.Enabled := false;
     TimerAlerterIcon.Enabled := false;
   end;
-
-
-//  fullRemTime := getBatteryRemainTime;
-//  if not (getACLineStatus) then
-//  begin
-//  end;
 
   // Alert - When system remain time goes below 10 minutes
   if (fullRemTime <= 600) then
@@ -1267,18 +1100,18 @@ begin
 {$ELSE}
     1: {battery alert}
       begin
-        frmAlert.setAlertString1('º¸Á¶ÀüÁöÀÇ ÀÜ·®ÀÌ ¾ó¸¶ ³²Áö ¾Ê¾Ò½À´Ï´Ù.         ');
-        frmAlert.setAlertString3('Àü¿øÀ» ¿¬°áÇÏ°Å³ª »õ º¸Á¶ÀüÁö·Î                 ');
+        frmAlert.setAlertString1('ë³´ì¡°ì „ì§€ì˜ ìž”ëŸ‰ì´ ì–¼ë§ˆ ë‚¨ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.         ');
+        frmAlert.setAlertString3('ì „ì›ì„ ì—°ê²°í•˜ê±°ë‚˜ ìƒˆ ë³´ì¡°ì „ì§€ë¡œ                 ');
       end;
     2: {fuel alert}
       begin
-        frmAlert.setAlertString1('¿¬·áÀüÁöÀÇ ¿¬·á°¡ ¾ó¸¶ ³²Áö ¾Ê¾Ò½À´Ï´Ù.         ');
-        frmAlert.setAlertString3('Àü¿øÀ» ¿¬°áÇÏ°Å³ª »õ ¿¬·á Ä«Æ®¸®Áö·Î            ');
+        frmAlert.setAlertString1('ì—°ë£Œì „ì§€ì˜ ì—°ë£Œê°€ ì–¼ë§ˆ ë‚¨ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.         ');
+        frmAlert.setAlertString3('ì „ì›ì„ ì—°ê²°í•˜ê±°ë‚˜ ìƒˆ ì—°ë£Œ ì¹´íŠ¸ë¦¬ì§€ë¡œ            ');
       end;
     3: {system alert}
       begin
-        frmAlert.setAlertString1('½Ã½ºÅÛÀÇ ÀüÃ¼ ÀÜ·® ½Ã°£ÀÌ ¾ó¸¶ ³²Áö ¾Ê¾Ò½À´Ï´Ù.  ');
-        frmAlert.setAlertString3('Àü¿øÀ» ¿¬°áÇÏ°Å³ª »õ º¸Á¶ÀüÁö ¶Ç´Â ¿¬·á Ä«Æ®¸®Áö·Î   ');
+        frmAlert.setAlertString1('ì‹œìŠ¤í…œì˜ ì „ì²´ ìž”ëŸ‰ ì‹œê°„ì´ ì–¼ë§ˆ ë‚¨ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.  ');
+        frmAlert.setAlertString3('ì „ì›ì„ ì—°ê²°í•˜ê±°ë‚˜ ìƒˆ ë³´ì¡°ì „ì§€ ë˜ëŠ” ì—°ë£Œ ì¹´íŠ¸ë¦¬ì§€ë¡œ   ');
       end;
 {$ENDIF}
     else
@@ -1325,29 +1158,12 @@ var
 begin            
 
   iCatID := biManager.getBatteryData(CATRIDID);
-//  iDensity := biManager.getBatteryData(CATDENSE);
-//  iCapac := biManager.getBatteryData(CATCAPAC);
 
   iDensity := biManager.getDefaultBatteryInfo(CATRIDGE_ADDR, CATDENSE)/10;
   iCapac := biManager.getDefaultBatteryInfo(CATRIDGE_ADDR, CATCAPAC)/10;
 
 
   imgDisplayer.setFuelImage(imgFuelStatus, StrToInt(Format('%3.0f', [iFuelCellPercent])), false);
-(*
-{$IFDEF EN}
-  try
-    isDetailClosed := false;
-    frmBatteryDetailEn := TfrmBatteryDetailEn.Create(nil);
-    frmBatteryDetailEn.batteryType := FUELCELL_DETAIL_TYPE;
-    frmBatteryDetailEn.percent := StrToInt(lblFuelCellRemain.Caption);
-    frmBatteryDetail.catridgeID := iCatID;
-    frmBatteryDetailEn.ShowModal;
-  finally
-    frmBatteryDetailEn.Free;
-    isDetailClosed := true;
-  end;
-{$ELSE}
-*)
   try
     isDetailClosed := false;
     frmBatteryDetail := TfrmBatteryDetail.Create(nil);
@@ -1362,7 +1178,6 @@ begin
     frmBatteryDetail.Free;
     isDetailClosed := true;
   end;
-//{$ENDIF}
 
 end;
 
@@ -1653,15 +1468,12 @@ begin
   imgDisplayer.setMainTabImage(TI3, 2, 2); // second disabled
 
   imgDisplayer.setOKImage(imgOK, false);
-
-//  Label36.Caption := 'Li-Ion Battery';  // 20061030 by À¯Àç¿ì
-//  Label36.Width := Label36.Width + 8;  // 20061030 by À¯Àç¿ì
   lblCurrentPowerType.Caption := 'FuelCell + Li-IonBattery';
   lblCurrentPowerType.Top := lblCurrentPowerType.Top+1;
   lblACNotice.Caption := 'AC Power';
 
 {$ELSE}
-  lblCurrentPowerType.Caption := '¿¬·áÀüÁö + º¸Á¶ÀüÁö';
+  lblCurrentPowerType.Caption := 'ì—°ë£Œì „ì§€ + ë³´ì¡°ì „ì§€';
 {$ENDIF}
 
   imgDisplayer.setOKImage(imgOK, true);
