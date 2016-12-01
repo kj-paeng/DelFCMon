@@ -407,14 +407,6 @@ begin
   end;
   result := s;
 
-(*  if (v >= 0) and (v <= 256) then
-  begin
-    s := 'CA';
-    result := s + Zero_Str(v+1, 3);
-  end
-  else
-    result := 'ND';
-*)
 end;
 
 procedure TfrmEngineeringWindow.loadPreferenceValue;
@@ -634,7 +626,7 @@ begin
   strGridDisp.Cells[0,6]  := '    Stack Voltage [V]';
   strGridDisp.Cells[0,7]  := '    Stack Current [A]';
   strGridDisp.Cells[0,8]  := '    Stack Power [W]';
-  strGridDisp.Cells[0,9]  := '    Stack Temperature [¡É]';
+  strGridDisp.Cells[0,9]  := '    Stack Temperature [â„ƒ]';
   strGridDisp.Cells[0,10] := '    Residual Quantity [%]';
   strGridDisp.Cells[0,11] := '    Battery Voltage [V]';
   strGridDisp.Cells[0,12] := '    Battery Current [A]';
@@ -657,22 +649,20 @@ end;
 
 procedure TfrmEngineeringWindow.Timer1Timer(Sender: TObject);
 var
-  // SABI variable (For page 2)
   inpcVolt, inpcCurr, iBattVolt, iBattCurr, iFuelVolt, iFuelCurr: Double;
   iNpcDetailPercent, iBatteryDetailPercent, iFuelCellDetailPercent: Double;
-  // SABI variable (For page 1)
+
   iBatteryFullCapa, iBatteryRemainCapa, iFuelCellFullCapa, iFuelCellRemainCapa: Single;
-  // Total Cell Info (for Page 1)
+
   fullRemTime: Extended;
   hour, min: Single;
   batteryLifePercent: Word;
   batteryLifePercent2: Single;
 
-  // SABI variable
+
   iStackTemp, iCatID, iOpMode: Single ;
   ihour, imin: Integer;
 
-  // RecyclerLever
   iodata2: BYTE;
 
   iRecyclerCount: Integer;
@@ -681,12 +671,12 @@ begin
 
   lblDate.Caption := DateTimeToStr(getToday);
 
-  // Get Recycler Level Information
+
   iRecyclerCount := round(biManager.getBatteryData(RECYCLER));//FloatToInteger(biManager.getBatteryData(RECYCLER));
   biManager.getRecyclerData(iodata2);
   drawRecyclerLever(iRecyclerCount, iodata2);
 
-  // SABI Interface Á¤º¸ (for Page 2)
+
   inpcVolt := biManager.getBatteryData(NOTEVOLT);
   strGridDisp.Cells[1, 3] := Format('%2.1f', [inpcVolt]);//IntToStr(inpcVolt);
   inpcCurr := biManager.getBatteryData(NOTECURR);
@@ -726,7 +716,7 @@ begin
   iFuelCellDetailPercent := iFuelVolt * iFuelCurr * 100 / 30;
   if (iFuelCellDetailPercent > 100) then iFuelCellDetailPercent := 100.0;
 
-  // SABI Interface Á¤º¸ (for Page 1)
+  // SABI Interface ì •ë³´ (for Page 1)
   iBatteryFullCapa := biManager.getDefaultBatteryInfo(BATTERY_SLAVE_ADDR, BATTERY_FULL_CAPA);
   iBatteryRemainCapa := biManager.getDefaultBatteryInfo(BATTERY_SLAVE_ADDR, BATTERY_REM_CAPA);
   iFuelCellFullCapa := biManager.getDefaultBatteryInfo(FUELCELL_SLAVE_ADDR, FUELCELL_FULL_CAPA);
@@ -745,11 +735,6 @@ begin
   strGridDisp.Cells[1, 14] := Format('%3.0f', [iBatteryPercent]);
   strGridDisp.Cells[1, 10] := Format('%3.0f', [iFuelCellPercent]);
 
-  //ÃÖ´ëÀýÀü¸ðµå ¹æÀü ¿¹»ó½Ã°£Àº ±âº» ÀüÁö ³²Àº ÀÜ·®(remaining capacity)  / »ó¼ö(¾à 40)
-  //<== ½Ã°£ ³ª¿À°í /24 ÇØ¼­ ÀÏ·Î Ç¥½Ã
-  //´ë±â¸ðµå ¹æÀü¿¹»ó½Ã°£Àº ÀüÃ¼ ÀüÁö ³²Àº ÀÜ·®(remaining capacity) / »ó¼ö(¾à 500)
-  //<== ½Ã°£ ³ª¿È / ±×´ë·Î Ç¥½Ã
-  // [+ ¿¬·á ÀüÁö] (lblCurrentPowerType) Visible ¿©ºÎ
   if (iFuelCurr > 0.2) then
   begin
     strGridDisp.Cells[1, 0] := 'Hybrid';
@@ -759,10 +744,6 @@ begin
     strGridDisp.Cells[1, 0] := 'Batt';
   end;
 
-  // Total Cell Info (for Page 1)
-//  fullRemTime := ((iBatteryRemainCapa+iFuelCellRemainCapa)/(inpcCurr*1000));
-
-  //ÃÑ»ç¿ë°¡´É½Ã°£=(±âº»ÀüÁöÀÜ·®+¿¬·áÀüÁöÀÜ·®)/(½Ã½ºÅÛ Ãâ·ÂÀÇ Amphere*1000)
   if (inpcCurr <=0) then inpcCurr := 0.0001;
   fullRemTime := ((iBatteryRemainCapa+iFuelCellRemainCapa)/(inpcCurr*1000))*60*60;
 
@@ -794,7 +775,7 @@ begin
     strGridDisp.Cells[1, 1] := 'Using AC Power';
   end else
   begin
-    //ÃÑ»ç¿ë°¡´É½Ã°£=(±âº»ÀüÁöÀÜ·®+¿¬·áÀüÁöÀÜ·®)/(½Ã½ºÅÛ Ãâ·ÂÀÇ Amphere*1000)
+
     fullRemTime := ((iBatteryRemainCapa+iFuelCellRemainCapa)/(inpcCurr*1000))*60*60;
 
     if (fullRemTime >= 3600) then
@@ -935,12 +916,12 @@ begin
 
   end
 {
-  xlApp.Connect; //¿¢¼¿À» °¡µ¿ÇÑ´Ù(InVisible »óÅÂ)
+  xlApp.Connect; //
   xlBook.connectto(xlApp.workbooks.add(TOleEnum(xlWBATWorksheet), LCID));
   xlSheet.connectto(xlBook.worksheets.item['Sheet1'] as _worksheet );
 
-  //¿öÅ©½ÃÆ® ÀÌ¸§ º¯°æ
-  xlSheet.Name := '³¯Á×¿©¶ó';
+  
+  xlSheet.Name := 'Temp;
 
 
   xlApp.DisplayAlerts[LCID] := False;
@@ -948,40 +929,37 @@ begin
 
   Sheet := xlApp.WorkBooks[xlApp.Workbooks.Count].WorkSheets[xlBook.Worksheets.Count];
 
-  Sheet.Cells[1,1] := '¿¢¼¿¼­½Ä';
+  Sheet.Cells[1,1] := 'XlSheet';
 
   xlApp.Range['A1','A1'].borders.lineStyle := 1;
   xlApp.Range['A1','A1'].borders.Color := clNavy;
   xlApp.Range['A1','A1'].Interior.Color := clYellow;
-  //ÆùÆ®º¯°æ
   xlApp.Range[Sheet.Cells[1,1],Sheet.Cells[1,1]].font.bold := true;
   xlApp.Range[Sheet.Cells[1,1],Sheet.Cells[1,1]].font.Size := 20;
-  xlApp.Range[Sheet.Cells[1,1],Sheet.Cells[1,1]].font.Name := '±Ã¼­';
+  xlApp.Range[Sheet.Cells[1,1],Sheet.Cells[1,1]].font.Name := 'Arial';
 
-  //¿ìÃøÁ¤·Ä(°¡·ÎÁ¤·Ä)
   xlApp.Range[Sheet.Cells[1,1],Sheet.Cells[1,1]].HorizontalAlignment := xlHAlignRight;
-  //°¡¿îµ¥ Á¤·Ä(¼¼·ÎÁ¤·Ä)
+
   xlApp.Range['B1','B1'].VerticalAlignment := xlHAlignCenter;
 
-  //¹üÀ§·Î ÂïÀ» °æ¿ì
   xlApp.Range['B1','C2'].Value := '123456789';
 
-  //¼ýÀÚÇü Æ÷¸Ë
+
   Format := '_-* #,##0.0_-;-* #,##0.0_-;_-* "-"???_-;_-@_-';
   xlApp.Range['B1','B1'].NumberFormatLocal := Format;
 
   Sheet.Range['B2', 'C2'].Interior.Color := RGB(223, 123, 123);
   xlApp.Range['B4', 'C4'].Interior.Color := clSilver;
 
-  //³¯Â¥Âï±â
-  Sheet.Cells[5,1] := '2002/5/6';
-  Sheet.Cells[5,2] := '2002/5/6';
 
-  //¼ýÀÚÇü
+  Sheet.Cells[5,1] := '2005/5/6';
+  Sheet.Cells[5,2] := '2005/5/6';
+
+
   Sheet.Cells[5,3] := '12345';
   Sheet.Cells[5,4] := '12345';
 
-  //³¯Â¥Æ÷¸Ë
+
   Format := 'yyyy-mm-dd';
   xlSheet.Range[Sheet.Cells[5,1], Sheet.Cells[5,1]].NumberFormat := Format;
 
@@ -993,31 +971,30 @@ begin
 
   xlSheet.Range['B11','B11'].VerticalAlignment := xlHAlignCenter;
   xlSheet.Range['B11','B11'].HorizontalAlignment := xlHAlignRight;
-  xlSheet.Range['B11','B11'].Value := '¼¿º´ÇÕÈÄ °¡¿îµ¥(¼¼·Î) Á¤·Ä';
+  xlSheet.Range['B11','B11'].Value := 'Center alignment';
   xlSheet.Range['B11','B13'].MergeCells := true;
   xlSheet.Range['B11','B13'].borders.LineStyle := 2;
 
   xlSheet.Range['B15','B15'].borders.lineStyle := 0;
   xlSheet.Range['B15','B15'].HorizontalAlignment := xlHAlignRight;
-  xlSheet.Range['B15','B15'].Value := '¼¿º´ÇÕÈÄ ¿ìÃø(°¡·Î) Á¤·Ä';
+  xlSheet.Range['B15','B15'].Value := 'Rightside alignment';
   xlSheet.Range['B15','D15'].MergeCells := true;
   xlSheet.Range['B15','D15'].borders.LineStyle := 1;
 
   xlSheet.Range['F15','G20'].MergeCells := true;
-  xlSheet.Range['F15','F15'].Value := '´ÙÁß¼¿º´ÇÕ';
+  xlSheet.Range['F15','F15'].Value := 'multiple cell merging';
   xlSheet.Range['F15','G20'].MergeCells := true;
   xlSheet.Range['F15','F15'].HorizontalAlignment := xlHAlignCenter;
   xlSheet.Range['F15','F15'].VerticalAlignment   := xlHAlignCenter;
   xlSheet.Range['F15','G20'].borders.Weight := 4;
 
-  //¶óÀÎ½ºÅ¸ÀÏ
+
   for i := 0 to 13 do
   begin
     xlSheet.Range['B'+inttostr((2*i)+16),'B'+inttostr((2*i)+16)].borders.lineStyle := i;
     xlSheet.Range['B'+inttostr((2*i)+16),'B'+inttostr((2*i)+16)].Value := 'borders.lineStyle := '+inttostr(i);
   end;
 
-  //border Weight
   for i := 1 to 4 do
   begin
     xlSheet.Range['B'+inttostr((2*i)+42),'B'+inttostr((2*i)+42)].borders.lineStyle := 1;
@@ -1025,7 +1002,7 @@ begin
     xlSheet.Range['B'+inttostr((2*i)+42),'B'+inttostr((2*i)+42)].Value := 'borders.Weight := '+inttostr(i);
   end;
 
-  //¶óÀÎÀ§Ä¡
+
   xlSheet.Range['D18','D18'].borders.Item[1].LineStyle := 1;
   xlSheet.Range['D18','D18'].Value := 'borders.Item[1].LineStyle := 1';
   xlSheet.Range['D20','D20'].borders.Item[2].LineStyle := 1;
@@ -1035,25 +1012,23 @@ begin
   xlSheet.Range['D24','D24'].borders.Item[4].LineStyle := 1;
   xlSheet.Range['D24','D24'].Value := 'borders.Item[4].LineStyle := 1';
 
-  //ÆÐÅÏº¯°æ
+
   for i := 1 to 18 do
   begin
     xlSheet.Range['D'+inttostr(i+24),'D'+inttostr(i+24)].Interior.Pattern := i;
     xlSheet.Range['E'+inttostr(i+24),'E'+inttostr(i+24)].Value := 'Interior.Pattern := '+inttostr(i);
   end;
 }
-{ ÀÌ¹ÌÁö¸¦ »ðÀÔÇÒ°æ¿ì ½ÇÁ¦ÆÄÀÏÀ» ±â·ÏÇØ¾ß µÇ±â ¶§¹®¿¡ ÁÖ¼®Ã³¸® Çß½À´Ï´Ù.
-  ½ÇÁ¦ ÆÄÀÏ°ú °æ·Î¸í ±â·ÏÇÏ°í ÁÖ¼®Çª½Ã°í ½ÇÇàÇØº¸¼¼¿ä ^^
-  //¹é±×¶ó¿îµå ÀÌ¹ÌÁö
+{ 
   //xlSheet.SetBackgroundPicture('C:\My Documents\My Pictures\couplevssolo(6).jpg');
-  //ÀÌ¹ÌÁö ÀÔ·Â
+  
   Selection := Sheet.Pictures.Insert('C:\My Documents\My Pictures\302492_2.jpg');
-  //ÀÌ¹ÌÁöÀ§Ä¡Á¶Àý
+  
   Selection.ShapeRange.IncrementLeft(243);
   Selection.ShapeRange.IncrementTop(605);
 }
 
-{  //¼ö½ÄÀÔ·Â
+{  
   Format := '#,##0.00_ ;-#,##0.00;_-* "-"???_-;_-@_-';
   xlApp.Range['F3','H8'].NumberFormatLocal := Format;
 
@@ -1064,33 +1039,33 @@ begin
   xlSheet.Range['I9', 'I9'].Formula := '=SUM(F9:H9)';
 
 
-  xlSheet.Range['F2', 'F2'].Value := '1ÇÐ³â';
-  xlSheet.Range['G2', 'G2'].Value := '2ÇÐ³â';
-  xlSheet.Range['H2', 'H2'].Value := '3ÇÐ³â';
+  xlSheet.Range['F2', 'F2'].Value := '1í•™ë…„';
+  xlSheet.Range['G2', 'G2'].Value := '2í•™ë…„';
+  xlSheet.Range['H2', 'H2'].Value := '3í•™ë…„';
 
-  xlSheet.Range['E3', 'E3'].Value := '1¹ø';
-  xlSheet.Range['E4', 'E4'].Value := '2¹ø';
-  xlSheet.Range['E5', 'E5'].Value := '3¹ø';
-  xlSheet.Range['E6', 'E6'].Value := '4¹ø';
-  xlSheet.Range['E7', 'E7'].Value := '5¹ø';
-  xlSheet.Range['E8', 'E8'].Value := '6¹ø';
+  xlSheet.Range['E3', 'E3'].Value := '1ë²ˆ';
+  xlSheet.Range['E4', 'E4'].Value := '2ë²ˆ';
+  xlSheet.Range['E5', 'E5'].Value := '3ë²ˆ';
+  xlSheet.Range['E6', 'E6'].Value := '4ë²ˆ';
+  xlSheet.Range['E7', 'E7'].Value := '5ë²ˆ';
+  xlSheet.Range['E8', 'E8'].Value := '6ë²ˆ';
   xlSheet.Range['E3', 'E8'].HorizontalAlignment := xlHAlignRight;
 }
 
 {
-  //Â÷Æ®¿ë ¿ÀºêÁ§Æ® »ý¼º
+
   ChObj := (xlSheet.ChartObjects(EmptyParam, lcid) as ChartObjects).Add(600, 10, 400, 250);
   ExcelChart1.ConnectTo(ChObj.Chart as _Chart);
-  //µ¥ÀÌÅÍ ¹üÀ§(µ¥ÀÌÅÍ»Ó¸¸¾Æ´Ï¶ó °¡·ÎÃà ¼¼·ÎÃà¿¡ ÂïÈú ÁÖ¼®°ª±îÁö Æ÷ÇÔÇØ¾ßÇÔ)
+  
   Rnge := xlSheet.Range['E2','H8']; // the data range, including titles
-  //Â÷Æ®Å¸ÀÔ
+  
   ChType := TOleEnum(xl3DColumn);
   ExcelChart1.ChartWizard(Rnge, ChType, EmptyParam, xlColumns, 1, 1, True,
                           xlSheet.Range['A1', 'A1'].Text, // The chart title
-                          '¹øÈ£', 'Á¡¼ö', EmptyParam, lcid);
+                          'Num', 'Score', EmptyParam, lcid);
   Ax := ExcelChart1.Axes(xlValue, xlPrimary, lcid) as Axis;
-  Ax.AxisTitle.Font.FontStyle := '±¼¸²Ã¼';
-  //ÀÚµ¿À¸·Î ÄÃ·³ÀÇ ÆøÀ» ¸ÂÃá´Ù.
+  Ax.AxisTitle.Font.FontStyle := 'Arial';
+
   xlSheet.Columns.AutoFit;
 }
 end;
@@ -1112,11 +1087,11 @@ var
   Hour, Min, Sec, MSec: Word;
 
   iBatteryFullCapa, iBatteryRemainCapa, iFuelCellFullCapa, iFuelCellRemainCapa: Single;
-  // Total Cell Info (for Page 1)
+
   fullRemTime: Extended;
   batteryLifePercent: Word;
   batteryLifePercent2: Single;
-//  diff: Double;
+
 
 begin
   Present:= Now;
@@ -1222,7 +1197,7 @@ begin
   DecodeTime(Present, Hour, Min, Sec, MSec);
 
   sheet := xls.Workbooks[1].WorkSheets[1];
-  sheet.Cells[3, 11] := '½ÇÇèÀÏÀÚ : '+IntToStr(Year)+'.'+Zero_str(Month, 2)+'.'+Zero_str(Day, 2);
+  sheet.Cells[3, 11] := 'ì‹¤í—˜ì¼ìž : '+IntToStr(Year)+'.'+Zero_str(Month, 2)+'.'+Zero_str(Day, 2);
 
   for i := 0 to strList.Count - 1 do
   begin
@@ -1305,21 +1280,21 @@ begin
   sheet := xls.Workbooks[1].WorkSheets[1];
   sheet.Cells[5,1] := IntToStr(Year)+'.'+Zero_str(Month, 2)+'.'+Zero_str(Day, 2);  //V > Order
   sheet.Cells[5,2] := Zero_str(Hour, 2)+':'+Zero_str(Min, 2)+':'+Zero_str(Sec, 2)+':'+Zero_str(MSec, 3);
-  sheet.Cells[5,3] := ''; //±¸µ¿½Ã°£
-  sheet.Cells[5,4] := ''; // Stack ¿Âµµ
+  sheet.Cells[5,3] := ''; 
+  sheet.Cells[5,4] := ''; 
   sheet.Cells[5,5] := biManager.getBatteryData(FUELVOLT);
   sheet.Cells[5,6] := biManager.getBatteryData(FUELCURR);
   sheet.Cells[5,7] := biManager.getBatteryData(BATTVOLT);
   sheet.Cells[5,8] := biManager.getBatteryData(BATTCURR);
   sheet.Cells[5,9] := biManager.getBatteryData(NOTEVOLT);
   sheet.Cells[5,10] := biManager.getBatteryData(NOTECURR);
-  sheet.Cells[5,11] := '';  // ¿¬·áÀÜ·®
-  sheet.Cells[5,12] := '';  // ±¸µ¿¸ðµå
-  sheet.Cells[3, 10] := '½ÇÇèÀÏÀÚ : '+IntToStr(Year)+'.'+Zero_str(Month, 2)+'.'+Zero_str(Day, 2);
+  sheet.Cells[5,11] := '';  
+  sheet.Cells[5,12] := '';  
+  sheet.Cells[3, 10] := 'Test date : '+IntToStr(Year)+'.'+Zero_str(Month, 2)+'.'+Zero_str(Day, 2);
 
   sheet.Columns.AutoFit;
 
-  sFileName := getFileNameFromDateTime(sLogLocation+'\'+'sdi_', '.xls');
+  sFileName := getFileNameFromDateTime(sLogLocation+'\'+'fc_', '.xls');
   xls.Workbooks[1].SaveAs(sFileName);
 
   xls.Quit;
